@@ -1,0 +1,10 @@
+.coverage
+MANIFEST
+build
+dist
+__pycache__
+*.egg-info
+/.idea/
+/.vscode/
+/venv*/
+/benchmarks/results/
