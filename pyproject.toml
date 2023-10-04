@@ -44,7 +44,7 @@ dev = [
     'pytest-cov',
     'pytest-mock',
     'setuptools_scm',
-    'typer @ git+https://github.com/pchanial/typer@add-support-for-literal-type',
+    'typer',
     'yaml',
 ]
 
