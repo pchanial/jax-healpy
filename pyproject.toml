@@ -33,6 +33,7 @@ license = {file = 'LICENSE'}
 dependencies = [
     'jax',
     'jaxtyping',
+    's2fft',
 ]
 dynamic = ['version']
 
@@ -45,7 +46,7 @@ dev = [
     'pytest-mock',
     'setuptools_scm',
     'typer',
-    'yaml',
+    'PyYAML',
 ]
 
 [project.urls]

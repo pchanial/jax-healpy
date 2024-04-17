@@ -20,6 +20,7 @@ from .pixelfunc import (
     vec2ang,
     vec2pix,
 )
+from .sphtfunc import alm2map, map2alm
 
 __all__ = [
     'UNSEEN',
@@ -60,6 +61,8 @@ __all__ = [
     # 'get_nside',
     'maptype',
     # 'ma_to_array',
+    'alm2map',
+    'map2alm',
 ]
 
 _config.update('jax_enable_x64', True)
