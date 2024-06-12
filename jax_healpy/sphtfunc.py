@@ -22,6 +22,8 @@ __all__ = [
         'lmax',
         'mmax',
         'pixwin',
+        'fwhm',
+        'sigma',
         'pol',
         'inplace',
         'verbose',
@@ -108,10 +110,15 @@ def alm2map(
     if alms.ndim == 0:
         raise ValueError('Input alms must have at least one dimension.')
     expected_ndim = 1 if healpy_ordering else 2
-    if alms.ndim > expected_ndim + 1:
+    if alms.ndim > expected_ndim + 1 + pol:
         raise ValueError('Input alms have too many dimensions.')
-    if alms.ndim == expected_ndim + 1:
-        raise NotImplementedError('Specifying more than 1 alm input is not implemented.')
+    if alms.ndim == expected_ndim + 1 + pol:
+        return jax.vmap(alm2map, in_axes=(0,) + 10 * (None,))(
+            alms, nside, lmax, mmax, pixwin, fwhm, sigma, pol, inplace, False, healpy_ordering
+        )
+    if alms.ndim > expected_ndim:
+        # only happens if pol=True
+        raise NotImplementedError('TEB alms are not implemented.')
 
     if lmax is None:
         L = 3 * nside
@@ -256,7 +263,21 @@ def map2alm(
     if maps.ndim > 2:
         raise ValueError('The input map has too many dimensions.')
     if maps.ndim > 1:
-        raise NotImplementedError('Specifying more than 1 map is not implemented.')
+        if pol:
+            raise NotImplementedError('TQU maps are not implemented.')
+        return jax.vmap(map2alm, in_axes=(0,) + 10 * (None,))(
+            maps,
+            lmax,
+            mmax,
+            iter,
+            pol,
+            use_weights,
+            datapath,
+            gal_cut,
+            use_pixel_weights,
+            False,
+            healpy_ordering,
+        )
 
     maps = jnp.asarray(maps)
     nside = npix2nside(maps.shape[-1])

@@ -64,7 +64,7 @@ show_missing = true
 skip_covered = true
 
 [tool.pytest.ini_options]
-addopts = '-ra --cov=jax_healpy --doctest-modules'
+addopts = '-rfEX --cov=jax_healpy --doctest-modules'
 testpaths = [
     'tests',
 ]
