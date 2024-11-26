@@ -3,9 +3,6 @@ from functools import partial
 import jax
 import jax.numpy as jnp
 from jax.typing import ArrayLike
-from s2fft.recursions.price_mcewen import generate_precomputes_jax
-from s2fft.sampling.reindex import flm_2d_to_hp_fast, flm_hp_to_2d_fast
-from s2fft.transforms import spherical
 
 from jax_healpy import npix2nside
 
@@ -97,6 +94,13 @@ def alm2map(
     alm2map. With such an input, the accuracy of map2alm->alm2map should be quite good, depending on your choices
     of lmax, mmax and nside (for some typical values, see e.g., section 5.1 of https://arxiv.org/pdf/1010.2084).
     """
+    try:
+        from s2fft.recursions.price_mcewen import generate_precomputes_jax
+        from s2fft.sampling.reindex import flm_hp_to_2d_fast
+        from s2fft.transforms import spherical
+    except ImportError as e:
+        msg = "Missing optional dependency 's2fft', part of the 'spht' dependency group."
+        raise ImportError(msg) from e
 
     if mmax is not None:
         raise NotImplementedError('Specifying mmax is not implemented.')
@@ -246,6 +250,14 @@ def map2alm(
     value, so that the input maps are not modified. Each map have its own,
     independent mask.
     """
+    try:
+        from s2fft.recursions.price_mcewen import generate_precomputes_jax
+        from s2fft.sampling.reindex import flm_2d_to_hp_fast
+        from s2fft.transforms import spherical
+    except ImportError as e:
+        msg = "Missing optional dependency 's2fft', part of the 'spht' dependency group."
+        raise ImportError(msg) from e
+
     if mmax is not None:
         raise NotImplementedError('Specifying mmax is not implemented.')
     if iter != 0:
