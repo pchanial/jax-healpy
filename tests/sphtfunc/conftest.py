@@ -2,6 +2,9 @@ from typing import Any, Callable
 
 import numpy as np
 import pytest
+
+s2fft = pytest.importorskip('s2fft')
+
 from s2fft.sampling.s2_samples import flm_2d_to_hp
 from s2fft.utils import signal_generator
 
