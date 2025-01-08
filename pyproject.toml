@@ -40,7 +40,9 @@ dynamic = ['version']
 [project.optional-dependencies]
 dev = [
     'healpy',
+    'matplotlib',
     'mypy',
+    'pandas',
     'pytest',
     'pytest-cov',
     'pytest-mock',
